@@ -1,6 +1,6 @@
-set(SOURCES "BDGL.cpp" ${GLAD_SOURCE}) #"glad.c"
+set(SOURCES "BDGL.cpp" "shader.cpp" ${GLAD_SOURCE}) #"glad.c"
 set(LIBRARY_NAME BDGL)
-set(EXECUTABLE_NAME RUNBDGL)
+set(EXECUTABLE_NAME runBDGL)
 
 find_package( OpenGL REQUIRED )
 

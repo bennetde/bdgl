@@ -5,6 +5,6 @@ int main() {
     std::cout << "Hello World";
     BDGL windowding;
 
-    windowding.createWindow("Fenster");
+    windowding.createWindow("Blah");
     windowding.run();
 }

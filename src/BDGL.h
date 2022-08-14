@@ -9,6 +9,7 @@ class BDGL {
     public:
     BDGL();
     void run();
+    void init();
     void createWindow(std::string name);
 
     private:
