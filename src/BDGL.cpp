@@ -1,7 +1,4 @@
-//#include "BDGL.h"
 #include "BDGL.h"
-#include <GLFW/glfw3.h>
-#include <glm/common.hpp>
 
 BDGL::BDGL() {
     glfwInit();
@@ -20,10 +17,10 @@ void BDGL::createWindow(std::string name) {
     }
     glfwMakeContextCurrent(window);
 
-    // Init GLAD
-    //if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    //    throw std::exception("Failed to init GLAD");
-    //}
+    //Init GLAD
+    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        throw std::exception("Failed to init GLAD");
+    }
 
     glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
@@ -36,6 +33,15 @@ void BDGL::run() {
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        float vertices[] = {
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            0.0f,  0.5f, 0.0f
+        };
+
+        unsigned int VBO;
+        glGenBuffers(1, &VBO);  
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -1,4 +1,4 @@
-set(SOURCES "BDGL.cpp" ) #"glad.c"
+set(SOURCES "BDGL.cpp" ${GLAD_SOURCE}) #"glad.c"
 set(LIBRARY_NAME BDGL)
 set(EXECUTABLE_NAME RUNBDGL)
 
