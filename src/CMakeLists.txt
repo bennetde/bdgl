@@ -1,4 +1,4 @@
-set (SOURCES "BDGL.cpp" ) #"glad.c"
+set(SOURCES "BDGL.cpp" ) #"glad.c"
 set(LIBRARY_NAME BDGL)
 set(EXECUTABLE_NAME RUNBDGL)
 
@@ -14,7 +14,7 @@ add_library(${LIBRARY_NAME} ${SOURCES})
 #target_include_directories(${LIBRARY_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 #target_include_directories(${LIBRARY_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(${LIBRARY_NAME} ${OPENGL_LIBRARIES} glfw)
+target_link_libraries(${LIBRARY_NAME} ${OPENGL_LIBRARIES} glfw glm)
 target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_20)
 
 add_executable(${EXECUTABLE_NAME} main.cpp)

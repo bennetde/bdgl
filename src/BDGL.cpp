@@ -1,6 +1,7 @@
 //#include "BDGL.h"
 #include "BDGL.h"
 #include <GLFW/glfw3.h>
+#include <glm/common.hpp>
 
 BDGL::BDGL() {
     glfwInit();
