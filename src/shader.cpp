@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <format>
 
 unsigned int createShader(const std::string vertexShaderSource, const std::string fragmentShaderSource) {
         // VERTEX SHADER
@@ -110,6 +111,10 @@ Shader::Shader(std::filesystem::path vertexShader, std::filesystem::path fragmen
 
     glDeleteShader(vertexId);
     glDeleteShader(fragmentId);
+}
+
+Shader::~Shader() {
+    glDeleteProgram(ID);
 }
 
 void Shader::use() {

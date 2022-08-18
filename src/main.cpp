@@ -2,9 +2,14 @@
 #include "BDGL.h"
 
 int main() {
-    std::cout << "Hello World\n";
-    BDGL windowding;
+    try {
+        std::cout << "Hello World\n";
+        BDGL windowding;
 
-    windowding.createWindow("Blah");
-    windowding.run();
+        windowding.createWindow("Blah");
+        windowding.run();
+    } catch (std::exception ex) {
+        std::cout << ex.what() << std::endl;
+    }
+
 }
