@@ -1,26 +1,8 @@
 #include "BDGL.h"
 #include "shader.h"
+#include <glm/vec4.hpp>
 #include <glm/common.hpp>
 
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "layout (location = 1) in vec3 aColor;"
-    "out vec3 ourColor;"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos, 1.0);\n"
-    "   ourColor = aColor;"
-    "}\0";
-
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "in vec3 ourColor;"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(ourColor, 1.0);\n"
-    "}\n\0";
-
-unsigned int shaderProgram = 0;
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() {
@@ -52,7 +34,8 @@ void BDGL::createWindow(std::string name) {
 
 void BDGL::init() {
     // build and compile shaders
-    shaderProgram = createShader(vertexShaderSource, fragmentShaderSource);
+    //shaderProgram = createShader(vertexShaderSource, fragmentShaderSource);
+
 
     // VERTICES
     float vertices[] = {
@@ -93,17 +76,18 @@ void BDGL::init() {
 
 void BDGL::run() {
     init();
+    Shader shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
+
     while(!glfwWindowShouldClose(window)) {
         processInput();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float timeValue = glfwGetTime();
+        float timeValue = static_cast<float>(glfwGetTime());
         float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-        glUseProgram(shaderProgram);
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        shader.set("ourColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
+        shader.use();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -115,7 +99,6 @@ void BDGL::run() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
     glfwTerminate();
 }
 

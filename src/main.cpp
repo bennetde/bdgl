@@ -2,7 +2,7 @@
 #include "BDGL.h"
 
 int main() {
-    std::cout << "Hello World";
+    std::cout << "Hello World\n";
     BDGL windowding;
 
     windowding.createWindow("Blah");
