@@ -3,6 +3,9 @@
 #include "texture.h"
 #include <glm/vec4.hpp>
 #include <glm/common.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() {
@@ -82,8 +85,15 @@ void BDGL::run() {
     Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT);
     Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
 
+
+
     while(!glfwWindowShouldClose(window)) {
         processInput();
+
+        // Update Transformation Matrix
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -91,6 +101,7 @@ void BDGL::run() {
         float timeValue = static_cast<float>(glfwGetTime());
         float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
         shader.set("ourColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
+        shader.set("transform", trans);
         shader.use();
         containerTexture.use(shader, "texture1", 0);
         smileyTexture.use(shader, "texture2", 1);
