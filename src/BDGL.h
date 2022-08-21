@@ -13,5 +13,6 @@ class BDGL {
     void createWindow(std::string name);
 
     private:
+    int frameCount;
     void processInput();
 };
