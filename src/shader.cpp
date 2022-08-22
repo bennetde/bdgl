@@ -10,7 +10,6 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <format>
 
 unsigned int createShader(const std::string vertexShaderSource, const std::string fragmentShaderSource) {
         // VERTEX SHADER
@@ -63,9 +62,9 @@ unsigned int createShader(const std::string vertexShaderSource, const std::strin
  
 Shader::Shader(std::filesystem::path vertexShader, std::filesystem::path fragmentShader) {
     if(!std::filesystem::is_regular_file(vertexShader)) {
-        throw std::runtime_error(std::format("ERROR::SHADER::FILE_NOT_FOUND\n{}", vertexShader.string()));
+        throw std::runtime_error("ERROR::SHADER::FILE_NOT_FOUND\n" + vertexShader.string());
     } else if(!std::filesystem::is_regular_file(fragmentShader)) {
-        throw std::runtime_error(std::format("ERROR::SHADER::FILE_NOT_FOUND\n{}", fragmentShader.string()));
+        throw std::runtime_error("ERROR::SHADER::FILE_NOT_FOUND\n" + fragmentShader.string());
     }
 
     std::ifstream vertexShaderStream(vertexShader);
@@ -100,6 +99,13 @@ Shader::Shader(std::filesystem::path vertexShader, std::filesystem::path fragmen
     if(!success) {
         glGetShaderInfoLog(vertexId, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    glCompileShader(fragmentId);
+    glGetShaderiv(fragmentId, GL_COMPILE_STATUS, &success);
+    if(!success) {
+        glGetShaderInfoLog(fragmentId, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
     ID = glCreateProgram();

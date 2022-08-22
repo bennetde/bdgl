@@ -3,7 +3,7 @@
 
 int main() {
     try {
-        std::cout << "Hello World\n";
+        std::cout << "Executing runBDGL\n";
         BDGL windowding;
 
         windowding.createWindow("Blah");

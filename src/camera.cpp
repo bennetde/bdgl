@@ -1,6 +1,6 @@
 #include "camera.h"
 #include <glm/glm.hpp>
-#include <glm/ext/matrix_projection.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <stdexcept>
 
 Camera::Camera(glm::vec3 pos, glm::vec3 nUp) : cameraPos{pos}, up{nUp} {
@@ -15,6 +15,5 @@ glm::vec3 Camera::getUp() {
 }
 
 glm::mat4 Camera::getLookAtMatrix() {
-    throw std::runtime_error("not implemented");
-    return glm::mat4(0.0f);
+    return glm::lookAt(cameraPos, cameraTarget, up);
 }

@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
+
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() : frameCount{0} {
@@ -186,7 +187,8 @@ void BDGL::run() {
 
         double secondsPerFrame = glfwGetTime() - lastTime;
         frameCount++;
-        glfwSetWindowTitle(window, std::format("Blah Frames: {}ms", (secondsPerFrame*1000)).c_str());
+        std::string title = "Frame Time:" + std::to_string(secondsPerFrame*1000) + "ms";
+        glfwSetWindowTitle(window, title.c_str());
 
         glfwSwapBuffers(window);
         glfwPollEvents();
