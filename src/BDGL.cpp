@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
-
+#include "camera.h"
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() : frameCount{0} {
@@ -125,6 +125,7 @@ void BDGL::run() {
     Shader shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
     Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT);
     Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
+    Camera camera;
 
     std::array<glm::vec3, 10> cubePositions = {
         glm::vec3( 0.0f,  0.0f,  0.0f), 
@@ -149,12 +150,14 @@ void BDGL::run() {
         // glm::mat4 trans = glm::mat4(1.0f);
         // trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
         // trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-
+        const float radius = 10.0f;
+        camera.setPosition(glm::vec3(sin(glfwGetTime()) * radius,0.0f, cos(glfwGetTime()) * radius));
 
         // View Matrix (Global -> View)
-        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 view;
         // note that we're translating the scene in the reverse direction of where we want to move
-        view = glm::translate(view, glm::vec3(sin(glfwGetTime()), 0.0f, -3.0f)); 
+        //view = glm::translate(view, glm::vec3(sin(glfwGetTime()), 0.0f, -3.0f)); 
+        view = camera.getLookAtMatrix();
 
         // Projection (View -> Clip)
         glm::mat4 projection;
