@@ -20,8 +20,10 @@ target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_20)
 add_executable(${EXECUTABLE_NAME} main.cpp)
 target_link_libraries(${EXECUTABLE_NAME} ${LIBRARY_NAME})
 
-add_custom_command(TARGET runBDGL
-    POST_BUILD
+add_custom_target(copy-resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/resources
-    $<TARGET_FILE_DIR:runBDGL>)
+    ${CMAKE_SOURCE_DIR}/resources ${CMAKE_CURRENT_BINARY_DIR})
+
+
+add_dependencies(${EXECUTABLE_NAME} copy-resources)
+
