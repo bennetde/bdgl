@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <array>
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() : frameCount{0} {
@@ -124,6 +125,19 @@ void BDGL::run() {
     Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT);
     Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
 
+    std::array<glm::vec3, 10> cubePositions = {
+        glm::vec3( 0.0f,  0.0f,  0.0f), 
+        glm::vec3( 2.0f,  5.0f, -15.0f), 
+        glm::vec3(-1.5f, -2.2f, -2.5f),  
+        glm::vec3(-3.8f, -2.0f, -12.3f),  
+        glm::vec3( 2.4f, -0.4f, -3.5f),  
+        glm::vec3(-1.7f,  3.0f, -7.5f),  
+        glm::vec3( 1.3f, -2.0f, -2.5f),  
+        glm::vec3( 1.5f,  2.0f, -2.5f), 
+        glm::vec3( 1.5f,  0.2f, -1.5f), 
+        glm::vec3(-1.3f,  1.0f, -1.5f)  
+    };
+
     glEnable(GL_DEPTH_TEST);  
 
     while(!glfwWindowShouldClose(window)) {
@@ -135,19 +149,15 @@ void BDGL::run() {
         // trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
         // trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 
-        // Model Matrix (Local -> Global)
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));  
-
 
         // View Matrix (Global -> View)
         glm::mat4 view = glm::mat4(1.0f);
         // note that we're translating the scene in the reverse direction of where we want to move
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); 
+        view = glm::translate(view, glm::vec3(sin(glfwGetTime()), 0.0f, -3.0f)); 
 
         // Projection (View -> Clip)
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(140.0f), 800.0f / 800.0f, 0.1f, 100.0f);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -155,18 +165,28 @@ void BDGL::run() {
         float timeValue = static_cast<float>(glfwGetTime());
         float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
         shader.set("ourColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
-        shader.set("model", model);
+
         shader.set("view", view);
         shader.set("projection", projection);
         shader.use();
         containerTexture.use(shader, "texture1", 0);
         smileyTexture.use(shader, "texture2", 1);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        for(unsigned int i = 0; i < cubePositions.size(); i++) {
+            // Model Matrix (Local -> Global)
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i; 
+            model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f)); 
+            shader.set("model", model);
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
 
         double secondsPerFrame = glfwGetTime() - lastTime;
         frameCount++;
-        glfwSetWindowTitle(window, std::format("Blah Frames: {}fps", (1/secondsPerFrame)).c_str());
+        glfwSetWindowTitle(window, std::format("Blah Frames: {}ms", (secondsPerFrame*1000)).c_str());
 
         glfwSwapBuffers(window);
         glfwPollEvents();
