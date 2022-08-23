@@ -19,8 +19,20 @@ BDGL::BDGL() : frameCount{0} {
 
 }
 
+int BDGL::getWindowWidth() {
+    int width;
+    glfwGetWindowSize(window, &width, NULL);
+    return width;
+}
+
+int BDGL::getWindowHeight() {
+    int height;
+    glfwGetWindowSize(window, NULL, &height);
+    return height;
+}
+
 void BDGL::createWindow(std::string name) {
-    window = glfwCreateWindow(800,800, name.c_str(), NULL, NULL);
+    window = glfwCreateWindow(1280,720, name.c_str(), NULL, NULL);
     if(window == NULL) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
@@ -161,7 +173,7 @@ void BDGL::run() {
 
         // Projection (View -> Clip)
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(140.0f), 800.0f / 800.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(60.0f), (float)getWindowWidth() / (float)getWindowHeight(), 0.1f, 100.0f);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -176,6 +188,7 @@ void BDGL::run() {
         containerTexture.use(shader, "texture1", 0);
         smileyTexture.use(shader, "texture2", 1);
         glBindVertexArray(VAO);
+        
         for(unsigned int i = 0; i < cubePositions.size(); i++) {
             // Model Matrix (Local -> Global)
             glm::mat4 model = glm::mat4(1.0f);
@@ -190,7 +203,7 @@ void BDGL::run() {
 
         double secondsPerFrame = glfwGetTime() - lastTime;
         frameCount++;
-        std::string title = "Frame Time:" + std::to_string(secondsPerFrame*1000) + "ms";
+        std::string title = "Frame Time:" + std::to_string((secondsPerFrame*1000)) + "ms | W:" + std::to_string(getWindowWidth()) + "px, H: " + std::to_string(getWindowHeight()) + "px";
         glfwSetWindowTitle(window, title.c_str());
 
         glfwSwapBuffers(window);
