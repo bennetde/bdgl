@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdexcept>
 
-Camera::Camera(glm::vec3 pos, glm::vec3 nUp) : cameraPos{pos}, up{nUp} {
+Camera::Camera(glm::vec3 pos, glm::vec3 target, glm::vec3 nUp) : cameraPos{pos}, cameraTarget{target}, up{nUp} {
 }
 
 glm::vec3 Camera::getForward() {
@@ -17,6 +17,7 @@ glm::vec3 Camera::getUp() {
 glm::vec3 Camera::getRight() {
     return glm::normalize(glm::cross(up, getForward()));
 }
+
 glm::mat4 Camera::getLookAtMatrix() {
     return glm::lookAt(cameraPos, cameraTarget, up);
 }
