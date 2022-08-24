@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
+#include <chrono>
+#include <thread>
 #include "camera.h"
 unsigned int VAO, VBO, EBO;
 
@@ -199,11 +201,12 @@ void BDGL::run() {
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-
+        // Uncomment to limit to 30FPS
+        // std::this_thread::sleep_for(std::chrono::milliseconds(33));
 
         double secondsPerFrame = glfwGetTime() - lastTime;
         frameCount++;
-        std::string title = "Frame Time:" + std::to_string((secondsPerFrame*1000)) + "ms | W:" + std::to_string(getWindowWidth()) + "px, H: " + std::to_string(getWindowHeight()) + "px";
+        std::string title = "Frame Time:" + std::to_string((secondsPerFrame*1000)) + "ms | FPS:" + std::to_string(1.0/secondsPerFrame) + "| W:" + std::to_string(getWindowWidth()) + "px, H: " + std::to_string(getWindowHeight()) + "px";
         glfwSetWindowTitle(window, title.c_str());
 
         glfwSwapBuffers(window);
