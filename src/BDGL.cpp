@@ -101,7 +101,7 @@ void BDGL::init() {
     unsigned int indices[] = {
         0, 1, 2,   // first triangle
         3, 0, 2    // second triangle
-    }; 
+    };
 
     // gen buffers
     glGenVertexArrays(1, &VAO);
