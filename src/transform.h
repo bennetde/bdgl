@@ -28,7 +28,10 @@ public:
     glm::vec3 getScale();
     void setScale(glm::vec3);
 
+    glm::quat getRotation();
     void setRotation(glm::vec3 eulerAngles);
+    void setRotation(float angle, glm::vec3 axis);
+    void setRotation(glm::quat);
     glm::vec3 getEulerAngles();
     glm::vec3 getEulerAnglesInDegrees();
     

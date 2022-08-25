@@ -158,7 +158,8 @@ void BDGL::run() {
     Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
     Camera camera;
     camera.aspectRatio = (float)getWindowWidth() / (float)getWindowHeight();
-
+    
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
     std::array<glm::vec3, 10> cubePositions = {
         glm::vec3( 0.0f,  0.0f,  0.0f), 
         glm::vec3( 2.0f,  5.0f, -15.0f), 

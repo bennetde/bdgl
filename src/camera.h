@@ -5,6 +5,8 @@
 
 class Camera { 
     float cameraSpeed;
+    float mouseSensitivity = 0.1f;
+    float yaw, pitch;
    
 public:
     Camera(float speed = 2.5f);

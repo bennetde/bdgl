@@ -54,6 +54,18 @@ void Transform::setRotation(glm::vec3 eulerAngles) {
     rotation = glm::quat(eulerAngles);
 }
 
+void Transform::setRotation(float angle, glm::vec3 axis) {
+    rotation = glm::angleAxis(angle, axis);
+}
+
+void Transform::setRotation(glm::quat newRot) {
+    rotation = newRot;
+}
+
+glm::quat Transform::getRotation() {
+    return rotation;
+}
+
 glm::vec3 Transform::getEulerAngles() {
     return glm::eulerAngles(rotation);
 }
