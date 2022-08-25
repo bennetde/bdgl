@@ -17,8 +17,6 @@ BDGL::BDGL() : frameCount{0} {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
 }
 
 int BDGL::getWindowWidth() {
@@ -134,12 +132,32 @@ void BDGL::init() {
     //glBindVertexArray(0); 
 }
 
+bool BDGL::isKeyPressed(int key) {
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
+
+void BDGL::updateMousePos() {
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+    glfwGetCursorPos(window, &mouseX, &mouseY);
+    mouseDelta = glm::vec2(mouseX - lastMouseX, lastMouseY - mouseY);
+}
+
+glm::vec2 BDGL::getMousePos() {
+    return glm::vec2(mouseX, mouseY);
+}
+
+glm::vec2 BDGL::getMouseDelta() {
+    return mouseDelta;
+}
+
 void BDGL::run() {
     init();
     Shader shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
     Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT);
     Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
     Camera camera;
+    camera.aspectRatio = (float)getWindowWidth() / (float)getWindowHeight();
 
     std::array<glm::vec3, 10> cubePositions = {
         glm::vec3( 0.0f,  0.0f,  0.0f), 
@@ -158,14 +176,18 @@ void BDGL::run() {
 
     while(!glfwWindowShouldClose(window)) {
         double lastTime = glfwGetTime();
+        deltaTime = lastTime - lastFrame;
+        lastFrame = lastTime;
         processInput();
+        updateMousePos();
+        camera.update(*this, deltaTime);
 
         // // Transformation Matrix
         // glm::mat4 trans = glm::mat4(1.0f);
         // trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
         // trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-        const float radius = 10.0f;
-        camera.setPosition(glm::vec3(sin(glfwGetTime()) * radius,0.0f, cos(glfwGetTime()) * radius));
+        //const float radius = 10.0f;
+        //camera.setPosition(glm::vec3(sin(glfwGetTime()) * radius,0.0f, cos(glfwGetTime()) * radius));
 
         // View Matrix (Global -> View)
         glm::mat4 view;
@@ -174,8 +196,7 @@ void BDGL::run() {
         view = camera.getLookAtMatrix();
 
         // Projection (View -> Clip)
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(60.0f), (float)getWindowWidth() / (float)getWindowHeight(), 0.1f, 100.0f);
+        glm::mat4 projection = camera.getProjectionMatrix();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
