@@ -19,6 +19,3 @@ public:
 
     // TODO: CHANGE COPY/MOVE CONSTRUCTORS, ASSIGNMENT OPERATORS AND DESTRUCTOR. WE DONT WANT THE SHADER TO BE ACCESSIBLE ANYMORE WHEN THIS OBJECT GETS REMOVED
 };
-
-
-unsigned int createShader(const std::string vertexShaderSource, const std::string fragmentShaderSource);
