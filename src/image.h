@@ -11,8 +11,8 @@ class Image {
 
 
 
-    Image(const Image& other) = delete;
-    Image& operator=(const Image& other) = delete;
+    // Image(const Image& other);
+    // Image& operator=(const Image& other) = delete;
 
 
 public:

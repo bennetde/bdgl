@@ -10,9 +10,12 @@
 #include <chrono>
 #include <thread>
 #include "camera.h"
+#include "core/mesh.hpp"
+#include "core/mesh_generator.hpp"
 unsigned int VAO, VBO, EBO;
 
 BDGL::BDGL() : frameCount{0}, lastMouseX{0}, lastMouseY{0}, mouseX{0}, mouseY{0} {
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -153,10 +156,16 @@ glm::vec2 BDGL::getMouseDelta() {
 
 void BDGL::run() {
     init();
-    Shader shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
-    Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE);
-    Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE, PNG);
+    Shader shader("../shaders/vertex.glsl", "../shaders/fragment.glsl");
+    Texture containerTexture("../textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE);
+    Texture smileyTexture("../textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE, PNG);
+    
     Camera camera;
+    // std::vector<Texture> textures {
+    //     Texture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE),
+    //     Texture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE, PNG)
+    // };
+    Mesh mesh = MeshGenerator::generateCube(.1f);
     camera.aspectRatio = (float)getWindowWidth() / (float)getWindowHeight();
     
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
@@ -221,8 +230,9 @@ void BDGL::run() {
             model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f)); 
             shader.set("model", model);
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            mesh.Draw(shader);
         }
+
         // Uncomment to limit to 30FPS
         // std::this_thread::sleep_for(std::chrono::milliseconds(33));
 

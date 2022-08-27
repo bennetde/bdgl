@@ -1,4 +1,4 @@
-set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" "core/mesh.cpp" "core/vertex.cpp" ${GLAD_SOURCE}) #"glad.c"
+set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" "core/mesh.hpp" "core/vertex.cpp" "core/mesh_generator.hpp" ${GLAD_SOURCE}) #"glad.c"
 set(LIBRARY_NAME "BDGL")
 set(EXECUTABLE_NAME runBDGL)
 
@@ -19,6 +19,7 @@ target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_20)
 
 add_executable(${EXECUTABLE_NAME} main.cpp)
 target_link_libraries(${EXECUTABLE_NAME} ${LIBRARY_NAME})
+target_compile_features(${EXECUTABLE_NAME} PUBLIC cxx_std_20)
 
 add_custom_target(copy-resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
