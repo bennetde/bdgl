@@ -1,5 +1,5 @@
-set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" ${GLAD_SOURCE} "core/mesh.cpp" "core/mesh_renderer.cpp" "core/vertex.cpp") #"glad.c"
-set(LIBRARY_NAME BDGL)
+set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" "core/mesh.cpp" "core/vertex.cpp" ${GLAD_SOURCE}) #"glad.c"
+set(LIBRARY_NAME "BDGL")
 set(EXECUTABLE_NAME runBDGL)
 
 find_package( OpenGL REQUIRED )

@@ -12,7 +12,7 @@
 #include "camera.h"
 unsigned int VAO, VBO, EBO;
 
-BDGL::BDGL() : frameCount{0} {
+BDGL::BDGL() : frameCount{0}, lastMouseX{0}, lastMouseY{0}, mouseX{0}, mouseY{0} {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

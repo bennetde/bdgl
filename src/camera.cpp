@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 Camera::Camera(float speed) : transform{}, cameraSpeed{speed}, fovY(60.f), nearPlane(0.1f), farPlane(100.f), yaw{0}, pitch{0} {
 }
@@ -55,7 +56,7 @@ void Camera::update(BDGL& bdgl, float deltaTime) {
     if(yaw < -360) {
         yaw += 360;
     }
-    std::cout << std::to_string(yaw) << std::endl;
+    //std::cout << std::to_string(yaw) << std::endl;
     // glm::vec3 front;
     // front.x = cos(glm::radians(rotationDegs.y)) * cos(glm::radians(rotationDegs.x));
     // front.y = sin(glm::radians(rotationDegs.x));

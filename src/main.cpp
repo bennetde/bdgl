@@ -9,6 +9,7 @@ int main() {
         windowding.createWindow("Blah");
         windowding.run();
     } catch (std::exception ex) {
+        std::cout << "Crashed" << std::endl;
         std::cout << ex.what() << std::endl;
     }
 
