@@ -154,8 +154,8 @@ glm::vec2 BDGL::getMouseDelta() {
 void BDGL::run() {
     init();
     Shader shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
-    Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT);
-    Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, PNG);
+    Texture containerTexture("./textures/container.jpg", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE);
+    Texture smileyTexture("./textures/awesomeface.png", TEXTURE_WRAP::REPEAT, TEXTURE_WRAP::REPEAT, DIFFUSE, PNG);
     Camera camera;
     camera.aspectRatio = (float)getWindowWidth() / (float)getWindowHeight();
     

@@ -1,4 +1,4 @@
-set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" ${GLAD_SOURCE}) #"glad.c"
+set(SOURCES "BDGL.cpp" "shader.cpp" "image.cpp" "texture.cpp" "camera.cpp" "transform.cpp" ${GLAD_SOURCE} "core/mesh.cpp" "core/mesh_renderer.cpp" "core/vertex.cpp") #"glad.c"
 set(LIBRARY_NAME BDGL)
 set(EXECUTABLE_NAME runBDGL)
 

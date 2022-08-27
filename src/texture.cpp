@@ -5,7 +5,7 @@
 
 // TODO: Allow user to set Mipmap stuff
 // TODO: Add functions that allow changing settings runtime. like filtering
-Texture::Texture(std::filesystem::path imagePath, TEXTURE_WRAP horizontalWrap, TEXTURE_WRAP verticalWrap, IMAGE_TYPE imageType) : img(imagePath) {
+Texture::Texture(std::filesystem::path imagePath, TEXTURE_WRAP horizontalWrap, TEXTURE_WRAP verticalWrap, TEXTURE_TYPE nType, IMAGE_TYPE imageType) : img(imagePath), type{nType} {
     glGenTextures(1, &ID);
     glBindTexture(GL_TEXTURE_2D, ID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, horizontalWrap);
